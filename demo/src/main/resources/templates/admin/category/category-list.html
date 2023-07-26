@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/home.html :: headAdmin}">
+</head>
+<body>
+<div class="grid grid-cols-12">
+    <div th:replace="~{admin/home.html :: headerAdmin}">
+    </div>
+    <div class="col-span-12 grid grid-cols-6">
+        <div th:replace="~{admin/home.html :: navbarAdmin}">
+        </div>
+        <div th:replace="~{admin/home.html :: contentAdmin}">
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

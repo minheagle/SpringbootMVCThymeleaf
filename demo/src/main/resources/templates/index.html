@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#FA5330",
+              secondary: "#FFEEE8",
+              bggray: "#F5F5F5",
+              blue6_antd: "#1677ff",
+              blue2_antd: "#bae0ff",
+            },
+            width: {
+              "1/10": "10%",
+              "2/10": "20%",
+              "3/10": "30%",
+              "4/10": "40%",
+              "5/10": "50%",
+              "6/10": "60%",
+              "7/10": "70%",
+              "8/10": "80%",
+              "9/10": "90%",
+              "10/10": "100%",
+            },
+          },
+        },
+      };
+    </script>
+    <title>Document</title>
+</head>
+<body>
+<div class="grid grid-cols-12 w-full">
+    <!-- Header Start -->
+    <div th:fragment="header" class="col-span-12 grid grid-cols-12 bg-primary">
+        <div class="col-span-12 grid grid-cols-12">
+            <div class="col-span-1"></div>
+            <div
+                    class="col-span-10 flex justify-between items-center h-8 text-sm text-white font-normal"
+            >
+                <div class="flex justify-center items-center gap-4">
+                    <a th:href="@{/admin}" class="">Kênh Người Bán</a>
+                    <a href="" class="">Trở thành Người bán Shopee</a>
+                    <a href="" class="">Tải ứng dụng</a>
+                    <a href="" class="">Kết nối</a>
+                </div>
+                <div class="flex justify-center items-center gap-4">
+                    <a href="" class="flex justify-center items-center gap-2">
+                        <i class="far fa-bell"></i>
+                        <span>Thông báo</span>
+                    </a>
+                    <a href="" class="flex justify-center items-center gap-2">
+                        <i class="far fa-question-circle"></i>
+                        <span>Hỗ trợ</span>
+                    </a>
+                    <a href="" class="flex justify-center items-center gap-2">
+                        <i class="fas fa-globe"></i>
+                        <span>Tiếng Việt</span>
+                    </a>
+                    <div th:if="${session.customer}">
+                        <div class="flex justify-center items-center gap-4">
+                            <span th:text="${session.customer.name}"></span>
+                        </div>
+                    </div>
+                    <div th:unless="${session.customer}">
+                        <div class="flex justify-center items-center gap-4">
+                            <a th:href="@{/register}">Đăng Ký</a>
+                            <a th:href="@{/login}">Đăng Nhập</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-1"></div>
+        </div>
+        <div class="col-span-12 grid grid-cols-12">
+            <div class="col-span-1"></div>
+            <div
+                    class="col-span-10 flex justify-center items-center h-20 text-white"
+            >
+                <div class="w-1/6 flex justify-center items-center">
+                    <a th:href="@{/}">
+                        <h1 class="text-3xl text-white">Shopee</h1>
+                    </a>
+                </div>
+                <div class="w-4/6">
+                    <div
+                            class="w-full h-12 bg-white flex justify-center items-center rounded"
+                    >
+                        <input
+                                type="text"
+                                placeholder="Bạn muốn tìm gì ? "
+                                class="w-11/12 h-12 p-4 text-black rounded"
+                        />
+                        <div class="w-1/12 h-12 flex justify-center items-center">
+                            <button class="bg-primary w-10/12 h-5/6 rounded">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-1/6 flex justify-center items-center">
+                    <div class="relative inline-flex items-center">
+                        <i class="fas fa-shopping-cart text-2xl"></i>
+                        <div th:if="${session.countCart}" th:text="${session.countCart}" class="absolute w-6 h-6 inline-flex justify-center items-center -top-4 -right-4 bg-white rounded-full text-primary font-semibold">
+                        </div>
+                        <div th:unless="${session.countCart}" th:text="0" class="absolute w-6 h-6 inline-flex justify-center items-center -top-4 -right-4 bg-white rounded-full text-primary font-semibold">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-1"></div>
+        </div>
+    </div>
+    <!-- Header End -->
+    <!-- Content Start -->
+    <!-- Categories Start -->
+    <!-- <div class="col-span-12 grid grid-cols-12 bg-bggray">
+      <div class="col-span-1"></div>
+      <div class="col-span-10 bg-white grid grid-cols-10 mt-4">
+        <div
+          class="col-span-10 h-16 flex justify-start items-center border-b"
+        >
+          <h2 class="text-xl text-slate-500 ml-4 uppercase">Danh mục</h2>
+        </div>
+        <div class="col-span-10 grid grid-cols-10">
+          <div class="border h-44 flex flex-col justify-start items-center">
+            <div class="w-4/5 mt-4">
+              <img src="./images/T-shirt.png" alt="" />
+            </div>
+            <h3>Thời Trang Nam</h3>
+          </div>
+          <div class="border h-44 flex flex-col justify-start items-center">
+            <div class="w-4/5 mt-4">
+              <img src="./images/mobile-phone.png" alt="" />
+            </div>
+            <h3>Điện thoại & Phụ Kiện</h3>
+          </div>
+          <div class="border h-44 flex flex-col justify-start items-center">
+            <div class="w-4/5 mt-4">
+              <img src="./images/tivi.png" alt="" />
+            </div>
+            <h3>Thiết Bị Điện Tử</h3>
+          </div>
+          <div class="border h-44 flex flex-col justify-start items-center">
+            <div class="w-4/5 mt-4">
+              <img src="./images/laptop.png" alt="" />
+            </div>
+            <h3>Máy Tính & Laptop</h3>
+          </div>
+          <div class="border h-44 flex flex-col justify-start items-center">
+            <div class="w-4/5 mt-4">
+              <img src="./images/camera.png" alt="" />
+            </div>
+            <h3>Máy Ảnh & Máy Quay Phim</h3>
+          </div>
+          <div class="border h-44 flex flex-col justify-start items-center">
+            <div class="w-4/5 mt-4">
+              <img src="./images/clock.png" alt="" />
+            </div>
+            <h3>Đồng Hồ</h3>
+          </div>
+          <div class="border h-44 flex flex-col justify-start items-center">
+            <div class="w-4/5 mt-4">
+              <img src="./images/shoe.png" alt="" />
+            </div>
+            <h3>Giày Dép Nam</h3>
+          </div>
+          <div class="border h-44 flex flex-col justify-start items-center">
+            <div class="w-4/5 mt-4">
+              <img src="./images/kettle.png" alt="" />
+            </div>
+            <h3>Thiết Bị Điện Gia Dụng</h3>
+          </div>
+          <div class="border h-44 flex flex-col justify-start items-center">
+            <div class="w-4/5 mt-4">
+              <img src="./images/ball.png" alt="" />
+            </div>
+            <h3>Thể Thao & Du Lịch</h3>
+          </div>
+          <div class="border h-44 flex flex-col justify-start items-center">
+            <div class="w-4/5 mt-4">
+              <img src="./images/scooter.png" alt="" />
+            </div>
+            <h3>Ô Tô & Xe Máy & Xe Đạp</h3>
+          </div>
+          <div class="border h-44 flex flex-col justify-start items-center">
+            <div class="w-4/5 mt-4">
+              <img src="./images/dress.png" alt="" />
+            </div>
+            <h3>Thời Trang Nữ</h3>
+          </div>
+          <div class="border h-44 flex flex-col justify-start items-center">
+            <div class="w-4/5 mt-4">
+              <img src="./images/mom-and-son.png" alt="" />
+            </div>
+            <h3>Mẹ & Bé</h3>
+          </div>
+          <div class="border h-44 flex flex-col justify-start items-center">
+            <div class="w-4/5 mt-4">
+              <img src="./images/household.png" alt="" />
+            </div>
+            <h3>Nhà Cửa & Đời Sống</h3>
+          </div>
+          <div class="border h-44 flex flex-col justify-start items-center">
+            <div class="w-4/5 mt-4">
+              <img src="./images/makeup.png" alt="" />
+            </div>
+            <h3>Sắc Đẹp</h3>
+          </div>
+          <div class="border h-44 flex flex-col justify-start items-center">
+            <div class="w-4/5 mt-4">
+              <img src="./images/healthy.png" alt="" />
+            </div>
+            <h3>Sức Khỏe</h3>
+          </div>
+          <div class="border h-44 flex flex-col justify-start items-center">
+            <div class="w-4/5 mt-4">
+              <img src="./images/woman.png" alt="" />
+            </div>
+            <h3>Giày Dép Nữ</h3>
+          </div>
+          <div class="border h-44 flex flex-col justify-start items-center">
+            <div class="w-4/5 mt-4">
+              <img src="./images/bag.png" alt="" />
+            </div>
+            <h3>Túi Ví Nữ</h3>
+          </div>
+          <div class="border h-44 flex flex-col justify-start items-center">
+            <div class="w-4/5 mt-4">
+              <img src="./images/accessories.png" alt="" />
+            </div>
+            <h3>Phụ Kiện & Trang Sức Nữ</h3>
+          </div>
+          <div class="border h-44 flex flex-col justify-start items-center">
+            <div class="w-4/5 mt-4">
+              <img src="./images/general-store.png" alt="" />
+            </div>
+            <h3>Bách Hóa Online</h3>
+          </div>
+          <div class="border h-44 flex flex-col justify-start items-center">
+            <div class="w-4/5 mt-4">
+              <img src="./images/book-store.png" alt="" />
+            </div>
+            <h3>Nhà Sách Online</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-span-1"></div>
+    </div> -->
+    <!-- Categories End -->
+    <!-- List Product Start -->
+    <div class="col-span-12 grid grid-cols-12 bg-bggray">
+      <div class="col-span-1"></div>
+      <div
+        class="col-span-10 bg-white h-16 mt-4 flex justify-start items-center p-4"
+      >
+        <h2 class="text-xl">Danh sách sản phẩm</h2>
+      </div>
+      <div class="col-span-1"></div>
+    </div>
+    <div class="col-span-12 grid grid-cols-12 bg-bggray">
+      <div class="col-span-1"></div>
+      <div th:each="product : ${products}" class="col-span-10 grid grid-cols-6 gap-2 mt-4 mb-4">
+          <a th:href="@{/{slug}(slug=${product.slug})}">
+              <div
+                      class="col-span-1 bg-white flex flex-col justify-start items-center h-72"
+              >
+                  <div class="object-cover shrink-0">
+                      <img th:src="${product.imageUrl}" alt="" />
+                  </div>
+                  <div class="w-full p-2 flex flex-col flex-1 justify-between">
+                      <p th:text="${product.name}" class="flex-1 w-full text-xs text-left">
+                      </p>
+                      <div class="shrink-0 flex justify-between items-center">
+                          <span th:text="${product.price}" class="text-red-600"></span>
+                          <span th:text="'Đã bán ' + ${product.sold}" class="text-xs text-slate-400"></span>
+                      </div>
+                  </div>
+              </div>
+          </a>
+      </div>
+      <div class="col-span-1"></div>
+    </div>
+    <!-- List Product End -->
+    <!-- Content End -->
+    <!-- Paging Start -->
+    <!-- <div class="col-span-12 grid grid-cols-12">
+      <div class="col-span-1"></div>
+      <div class="col-span-10 flex justify-center items-center">
+        <div class="w-1/2 flex justify-center items-center">
+          <ul class="py-4 flex justify-center items-center gap-4">
+            <li
+              class="w-8 h-8 text-xl text-center font-semibold text-white bg-primary rounded-full"
+            >
+              <a href="">1</a>
+            </li>
+            <li
+              class="w-8 h-8 text-xl text-center font-semibold text-white bg-primary rounded-full"
+            >
+              <a href="">2</a>
+            </li>
+            <li
+              class="w-8 h-8 text-xl text-center font-semibold text-white bg-primary rounded-full"
+            >
+              <a href="">3</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-span-1"></div>
+    </div> -->
+    <!-- Paging End -->
+</div>
+</body>
+</html>

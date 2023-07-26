@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{index.html :: head}">
+</head>
+<body>
+<div class="grid grid-cols-12 w-full">
+    <!-- Header Start -->
+    <div th:replace="~{index.html :: header}"></div>
+    <!-- Header End -->
+    <!-- Content Start -->
+    <div class="col-span-12 grid grid-cols-12 bg-bggray">
+        <div class="col-span-1"></div>
+        <div class="col-span-10 bg-bggray grid grid-cols-12 mt-4 rounded">
+            <div class="col-span-12 flex flex-col justify-start items-center">
+                <h3 class="text-center text-2xl">Đăng nhập</h3>
+                <div class="w-1/2">
+                    <form
+                            th:action="@{/login}"
+                            th:object="${customerLogin}"
+                            method="post"
+                            class="flex flex-col justify-start items-center"
+                    >
+                        <label class="w-full pb-2">Email : </label>
+                        <input th:field="*{email}" type="text" class="w-full h-8 mb-4" />
+                        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="w-full text-red-600"></span>
+                        <label class="w-full pb-2">Mật khẩu : </label>
+                        <input th:field="*{password}" type="password" class="w-full h-8 mb-4" />
+                        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="w-full text-red-600"></span>
+                        <div th:if="${error}">
+                            <span th:text="${error}" class="w-full text-red-600"></span>
+                        </div>
+                        <button
+                                type="submit"
+                                class="w-24 h-10 text-white bg-primary m-4 rounded"
+                        >
+                            Đăng nhập
+                        </button>
+                    </form>
+                    <div class="flex flex-col justify-center items-center">
+                        <span>Hoặc</span>
+                        <a th:href="@{/register}">
+                            <button class="w-24 h-10 text-white bg-primary m-4 rounded">
+                                Đăng ký
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-span-1"></div>
+    </div>
+    <!-- Content End -->
+</div>
+</body>
+</html>

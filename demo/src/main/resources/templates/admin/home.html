@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="headAdmin">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#FA5330",
+              secondary: "#FFEEE8",
+              bggray: "#F5F5F5",
+              blue6_antd: "#1677ff",
+              blue2_antd: "#bae0ff",
+            },
+            width: {
+              "1/10": "10%",
+              "2/10": "20%",
+              "3/10": "30%",
+              "4/10": "40%",
+              "5/10": "50%",
+              "6/10": "60%",
+              "7/10": "70%",
+              "8/10": "80%",
+              "9/10": "90%",
+              "10/10": "100%",
+            },
+          },
+        },
+      };
+    </script>
+    <title>Document</title>
+</head>
+<body>
+<div class="grid grid-cols-12">
+    <div
+        th:fragment="headerAdmin"  class="col-span-12 h-24 flex justify-start items-center bg-blue6_antd"
+    >
+        <h1 class="p-12 text-3xl text-white">Admin Page</h1>
+    </div>
+    <div class="col-span-12 grid grid-cols-6">
+        <div
+            th:fragment="navbarAdmin" class="col-span-1 bg-blue-200 h-[calc(100vh-6rem)] flex flex-col justify-between items-center"
+        >
+            <ul
+                    class="flex flex-col justify-center items-start gap-1 mt-4 mb-4 w-full"
+            >
+                <li
+                        class="w-full h-8 flex justify-start items-center pl-2 hover:bg-blue6_antd hover:text-white"
+                >
+                    <a href="">
+                        <span> Dashboard </span>
+                    </a>
+                </li>
+                <li
+                        class="w-full flex justify-start items-center h-8 pl-2 pr-2 hover:bg-blue6_antd hover:text-white"
+                >
+                    <a th:href="@{/admin/products}">
+                        <span>Product Management</span>
+                    </a>
+                </li>
+                <li
+                        class="w-full h-8 flex justify-start items-center pl-2 pr-2 hover:bg-blue6_antd hover:text-white"
+                >
+                    <a th:href="@{/admin/categories}">
+                        <span>Category Management</span>
+                    </a>
+                </li>
+            </ul>
+            <ul
+                    class="flex flex-col justify-center items-start gap-1 mt-4 mb-4 w-full"
+            >
+                <li
+                        class="w-full h-8 flex justify-start items-center pl-2 hover:bg-blue6_antd hover:text-white"
+                >
+                    <a th:href="@{/}">
+                        <span> Shopee </span>
+                    </a>
+                </li>
+                <li
+                        class="w-full h-8 flex justify-start items-center pl-2 hover:bg-blue6_antd hover:text-white"
+                >
+                    <a href="">
+                        <span> Logout </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-span-5 p-4">
+        </div>
+    </div>
+</div>
+</body>
+</html>

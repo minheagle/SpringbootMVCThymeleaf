@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/home.html :: headAdmin}">
+
+</head>
+<body>
+<div class="grid grid-cols-12">
+    <div th:replace="~{admin/home.html :: headerAdmin}">
+    </div>
+    <div class="col-span-12 grid grid-cols-6">
+        <div th:replace="~{admin/home.html :: navbarAdmin}">
+
+        </div>
+        <div class="col-span-5 p-4">
+            <div class="w-full flex justify-center items-center bg-slate-200 rounded">
+                <div class="w-full flex flex-col justify-center items-center px-20 py-8">
+                    <h2 class="text-2xl py-4">Create Product</h2>
+                    <form th:action="@{/admin/products/create}"
+                          th:object="${newProduct}"
+                          method="post"
+                          enctype="multipart/form-data"
+                          class="w-6/10 flex flex-col">
+                        <label class="flex flex-col pb-4">
+                            <span class="pb-2">Product Name : </span>
+                            <input th:field="*{name}" type="text" />
+                        </label>
+                        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="w-full text-red-600"></span>
+                        <label class="flex flex-col pb-4">
+                            <span class="pb-2">Slug : </span>
+                            <input th:field="*{slug}" type="text" />
+                        </label>
+                        <span th:if="${#fields.hasErrors('slug')}" th:errors="*{slug}" class="w-full text-red-600"></span>
+                        <label class="flex flex-col pb-4">
+                            <span class="pb-2">Product Price : </span>
+                            <input th:field="*{price}" type="number" />
+                        </label>
+                        <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="w-full text-red-600"></span>
+                        <label class="flex flex-col pb-4">
+                            <span class="pb-2">Product Quantity : </span>
+                            <input th:field="*{quantity}" type="number" />
+                        </label>
+                        <span th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" class="w-full text-red-600"></span>
+                        <label class="flex flex-col pb-4">
+                            <span class="pb-2">Image : </span>
+                            <input th:field="*{file}" type="file" name="file" />
+                        </label>
+                        <span th:if="${#fields.hasErrors('file')}" th:errors="*{file}" class="w-full text-red-600"></span>
+                        <label class="flex flex-col pb-4">
+                            <span class="pb-2">Category : </span>
+                            <select name="category">
+                                <option th:each="category : ${categoryList}" th:value="${category.id}" th:text="${category.content}"></option>
+                            </select>
+                        </label>
+                        <div th:if="${error}">
+                            <span th:text="${error}" class="w-full text-red-600"></span>
+                        </div>
+                        <button type="submit" class="w-24 h-10 text-white bg-blue6_antd rounded">
+                            Create
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
