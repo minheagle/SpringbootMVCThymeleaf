@@ -23,4 +23,15 @@ public class OrderDetail {
     public double getAmount(){
         return this.price * this.quantity;
     }
+
+    @Override
+    public String toString() {
+        return "OrderDetail{" +
+                "id=" + id +
+                ", order=" + order +
+                ", product=" + product +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                '}';
+    }
 }

@@ -56,7 +56,7 @@
                                         <span th:text="${cart.getAmount}" class="pl-4"></span>
                                     </td>
                                     <td class="border border-slate-500">
-                                        <a href="">
+                                        <a th:href="@{/cart/remove/{cartId}(cartId=${cart.id})}">
                                             <i class="fas fa-trash-alt text-2xl text-red-600"></i>
                                         </a>
                                     </td>

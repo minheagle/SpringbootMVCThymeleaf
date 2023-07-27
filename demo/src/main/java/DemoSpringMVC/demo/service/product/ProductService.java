@@ -9,9 +9,11 @@ import DemoSpringMVC.demo.service.file.IFileService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService implements IProductService{
@@ -28,26 +30,35 @@ public class ProductService implements IProductService{
     private ModelMapper modelMapper;
 
     @Override
-    public List<ProductEntity> getAll() {
-        return productRepository.findAll();
+    @Transactional(readOnly = true)
+    public List<Product> getAll() {
+        return productRepository.findAll()
+                .stream()
+                .map(item -> modelMapper.map(item, Product.class))
+                .collect(Collectors.toList());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Product> getAllByCategoryId(long categoryId) {
         return null;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Product getById(long id) {
         return modelMapper.map(productRepository.findById(id).get(), Product.class);
     }
 
     @Override
-    public ProductEntity getByProductSlug(String slug) {
-        return productRepository.findBySlug(slug).get();
+    @Transactional(readOnly = true)
+    public Product getByProductSlug(String slug) {
+        ProductEntity product = productRepository.findBySlug(slug).get();
+        return modelMapper.map(product, Product.class);
     }
 
     @Override
+    @Transactional
     public void create(CreateProduct newProduct, long categoryId) throws IOException {
         ProductEntity productEntity = modelMapper.map(newProduct, ProductEntity.class);
         productEntity.setImageUrl(fileService.uploadSingle(newProduct.getFile()));
@@ -56,6 +67,7 @@ public class ProductService implements IProductService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public int getCountStock(long id) {
         return productRepository.findById(id).get().getQuantity();
     }

@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 
 @Controller
 @RequestMapping("/cart")
@@ -47,8 +46,10 @@ public class CartController {
     }
 
     @GetMapping("/remove/{cartId}")
-    public String removeItem(@PathVariable("cartId") Long cartId, Model model){
-        return "";
+    public String removeItem(@PathVariable("cartId") Long cartId){
+        System.out.println(cartId);
+        cartService.removeItem(cartId);
+        return "redirect:/cart";
     }
 
     @GetMapping("/checkout")
@@ -63,6 +64,7 @@ public class CartController {
             return "home/cart/checkout";
         }
         orderService.create(checkout, cartService.getAll());
+        cartService.emptyCart();
         return "redirect:/cart";
     }
 }

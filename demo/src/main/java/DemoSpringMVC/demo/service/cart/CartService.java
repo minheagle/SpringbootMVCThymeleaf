@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CartService implements ICartService{
@@ -19,7 +20,13 @@ public class CartService implements ICartService{
 
     @Override
     public List<OrderDetail> getAll() {
-        return cart.getCartList();
+        return cart.getCartList()
+                .stream()
+                .map(item -> {
+                    item.setId(cart.getCartList().indexOf(item));
+                    return item;
+                })
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -35,7 +42,6 @@ public class CartService implements ICartService{
                     newCart.setQuantity(1);
                     newCart.setPrice(product.getPrice());
                     cart.getCartList().add(newCart);
-
                 });
     }
 
@@ -57,8 +63,8 @@ public class CartService implements ICartService{
     }
 
     @Override
-    public void removeItem(int id) {
-        cart.getCartList().remove(id);
+    public void removeItem(long cartId) {
+        cart.getCartList().remove((int) cartId);
     }
 
     @Override

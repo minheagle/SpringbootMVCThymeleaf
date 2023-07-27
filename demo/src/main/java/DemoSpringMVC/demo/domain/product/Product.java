@@ -19,6 +19,7 @@ public class Product {
     private double price;
     private int quantity;
     private String imageUrl;
+    private int sold;
     private float rating;
     private CategoryEntity category;
 }

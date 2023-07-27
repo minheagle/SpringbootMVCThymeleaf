@@ -81,7 +81,7 @@ public class HomeController {
     }
 
     @GetMapping("/{slug}")
-    public String productDetail(Model model, @PathVariable("slug") String slug){
+    public String productDetail(@PathVariable("slug") String slug,Model model){
         model.addAttribute("product", productService.getByProductSlug(slug));
         return "home/product/product-detail";
     }

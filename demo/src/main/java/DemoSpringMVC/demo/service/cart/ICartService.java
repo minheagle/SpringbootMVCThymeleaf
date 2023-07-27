@@ -10,7 +10,7 @@ public interface ICartService {
     void addItem(Product product);
 
     void updateQuantity(long productId, int quantity);
-    void removeItem(int id);
+    void removeItem(long cartId);
     void emptyCart();
     int count();
     double getTotalCost();
