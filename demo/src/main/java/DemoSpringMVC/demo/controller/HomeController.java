@@ -1,25 +1,23 @@
 package DemoSpringMVC.demo.controller;
 
-import DemoSpringMVC.demo.domain.customer.Customer;
 import DemoSpringMVC.demo.domain.customer.CustomerLogin;
 import DemoSpringMVC.demo.domain.customer.CustomerRegister;
-import DemoSpringMVC.demo.entity.CategoryEntity;
-import DemoSpringMVC.demo.entity.CustomerEntity;
 import DemoSpringMVC.demo.service.auth.IAuthService;
 import DemoSpringMVC.demo.service.category.ICategoryService;
 import DemoSpringMVC.demo.service.customer.ICustomerService;
 import DemoSpringMVC.demo.service.product.IProductService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+@Slf4j
 @Controller
 @RequestMapping("/")
 public class HomeController {
@@ -31,6 +29,9 @@ public class HomeController {
 
     @Autowired
     private IAuthService authService;
+
+    @Autowired
+    private UserDetailsService customerUserDetailsService;
 
     @Autowired
     private IProductService productService;
@@ -51,18 +52,8 @@ public class HomeController {
     }
 
     @PostMapping("login")
-    public String login(@ModelAttribute("customerLogin") @Valid CustomerLogin customer, BindingResult bindingResult, Model model, HttpSession session){
-        if (bindingResult.hasErrors()){
-            return "home/login";
-        }
-        try{
-            Customer getCustomer = authService.login(customer);
-            session.setAttribute("customer", getCustomer);
-            return "redirect:/";
-        }catch (Exception e){
-            model.addAttribute("error", e.getMessage());
-            return "home/login";
-        }
+    public String login(@ModelAttribute("customerLogin")  CustomerLogin customer , BindingResult bindingResult, Model model, HttpSession session){
+        return authService.login(customer, bindingResult, model, session);
     }
 
     @GetMapping("register")
@@ -80,7 +71,7 @@ public class HomeController {
         return "redirect:/login";
     }
 
-    @GetMapping("/{slug}")
+    @GetMapping("products/{slug}")
     public String productDetail(@PathVariable("slug") String slug,Model model){
         model.addAttribute("product", productService.getByProductSlug(slug));
         return "home/product/product-detail";

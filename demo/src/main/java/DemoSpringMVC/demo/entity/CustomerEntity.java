@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
 
 @Entity
 @Table(name = "customer")
@@ -12,7 +16,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerEntity {
+public class CustomerEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -37,7 +41,7 @@ public class CustomerEntity {
     private String password;
 
     @Column(name = "role")
-    private String role = "user";
+    private String role = "USER";
 
     @Column(name = "isBlocked")
     private boolean isBlocked;

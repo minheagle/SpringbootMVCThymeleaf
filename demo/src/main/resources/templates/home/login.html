@@ -16,20 +16,20 @@
                 <h3 class="text-center text-2xl">Đăng nhập</h3>
                 <div class="w-1/2">
                     <form
+
                             th:action="@{/login}"
-                            th:object="${customerLogin}"
                             method="post"
                             class="flex flex-col justify-start items-center"
                     >
                         <label class="w-full pb-2">Email : </label>
-                        <input th:field="*{email}" type="text" class="w-full h-8 mb-4" />
-                        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="w-full text-red-600"></span>
+                        <input name="username" type="text" class="w-full h-8 mb-4" />
+<!--                        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="w-full text-red-600"></span>-->
                         <label class="w-full pb-2">Mật khẩu : </label>
-                        <input th:field="*{password}" type="password" class="w-full h-8 mb-4" />
-                        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="w-full text-red-600"></span>
-                        <div th:if="${error}">
-                            <span th:text="${error}" class="w-full text-red-600"></span>
-                        </div>
+                        <input name="password" type="password" class="w-full h-8 mb-4" />
+<!--                        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="w-full text-red-600"></span>-->
+<!--                        <div th:if="${error}">-->
+<!--                            <span th:text="${error}" class="w-full text-red-600"></span>-->
+<!--                        </div>-->
                         <button
                                 type="submit"
                                 class="w-24 h-10 text-white bg-primary m-4 rounded"

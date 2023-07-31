@@ -4,18 +4,34 @@ import DemoSpringMVC.demo.domain.customer.Customer;
 import DemoSpringMVC.demo.domain.customer.CustomerLogin;
 import DemoSpringMVC.demo.domain.customer.CustomerRegister;
 import DemoSpringMVC.demo.entity.CustomerEntity;
+import DemoSpringMVC.demo.filter.redirectFilter.HandleAuthenticationSuccess;
 import DemoSpringMVC.demo.repository.CustomerRepository;
 import DemoSpringMVC.demo.service.customer.ICustomerService;
 import DemoSpringMVC.demo.validator.customer.create.ICreateValidateCustomer;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 
 import java.util.List;
 
 @Service
 public class AuthService implements IAuthService{
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private HandleAuthenticationSuccess handleAuthenticationSuccess;
     @Autowired
     private ICustomerService customerService;
 
@@ -48,14 +64,33 @@ public class AuthService implements IAuthService{
 
     @Override
     public Customer login(CustomerLogin customerLogin) {
-        if (!customerRepository.existsByEmail(customerLogin.getEmail())){
-            throw new RuntimeException("Đăng nhập không thành công !");
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(customerLogin.getEmail(), customerLogin.getPassword())
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        CustomerEntity customer = customerRepository.findByEmail(customerLogin.getEmail()).get();
+        return modelMapper.map(customer, Customer.class);
+    }
+
+    @Override
+    public String login(@Valid CustomerLogin customerLogin, BindingResult bindingResult, Model model, HttpSession session) {
+        if (bindingResult.hasErrors()){
+            return "home/login";
         }
-        CustomerEntity customer = customerRepository.findByEmail(customerLogin.getEmail());
-        if(!passwordEncoder.matches(customerLogin.getPassword(), customer.getPassword())){
-            throw new RuntimeException("Đăng nhập không thành công !");
+        try{
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(customerLogin.getEmail(), customerLogin.getPassword())
+            );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            CustomerEntity customer = customerRepository.findByEmail(customerLogin.getEmail()).get();
+            session.setAttribute("customer", modelMapper.map(customer, Customer.class));
+            if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))){
+                return "redirect:/admin";
+            }
+            return "redirect:/";
+        }catch (Exception e){
+            model.addAttribute("error", "Đăng nhập thất bại !");
+            return "home/login";
         }
-        Customer getCustomer = modelMapper.map(customer, Customer.class);
-        return getCustomer;
     }
 }
